@@ -39,10 +39,11 @@ document.getElementById("play_game").onclick = function () {
 document.getElementById("end_game").onclick = function () {
     stopScrolling = true;
     toggleGameButtonsToGameFinished();
+    let paragraph = document.getElementById("feedback");
     if (scrollerValues[0] === scrollerValues[1] && scrollerValues[1] === scrollerValues[2]) {
-        console.log("You win!");
+        paragraph.appendChild(document.createTextNode("You win!"));
     } else {
-        console.log("You lose");
+        paragraph.appendChild(document.createTextNode("You lose!"));
     }
 }
 
@@ -119,6 +120,8 @@ function toggleGameButtonsToGameFinished() {
 function toggleGamesButtonToNewGame() {
     document.getElementById("play_game").classList.remove("hidden");
     document.getElementById("new_game").classList.add("hidden");
+    let paragraph = document.getElementById("feedback");
+    paragraph.textContent = "";
     stopScrolling = false;
 
     scroller1Node.style.backgroundPosition = 'bottom';
