@@ -18,61 +18,60 @@ const browsers = Object.freeze({
 });
 
 
-let scroller1, scroller2, scroller3;
-// let spriteID;
-let subspriteID;
+const scrollerValues = [browsers.FIREFOX, browsers.FIREFOX, browsers.FIREFOX];
 let stopScrolling = false;
 let scroller1Sprite;
 let scroller2Sprite;
 let scroller3Sprite;
 
+const scroller1Node = document.getElementById("scroller1");
+const scroller2Node = document.getElementById("scroller2");
+const scroller3Node = document.getElementById("scroller3");
 
-function stopAnimation() {
-    clearInterval(spriteID);
-}
 
 document.getElementById("play_game").onclick = function () {
     toggleGameButtonsToGameOn();
-    roll(scroller1Sprite, scroller1, "scroller1", 200);
-    roll(scroller2Sprite, scroller2, "scroller2", 150);
-    roll(scroller3Sprite, scroller3, "scroller3", 100);
+    roll(scroller1Sprite, 1, scroller1Node, 225);
+    roll(scroller2Sprite, 2, scroller2Node, 150);
+    roll(scroller3Sprite, 3, scroller3Node, 100);
 }
 
 document.getElementById("end_game").onclick = function () {
     stopScrolling = true;
     toggleGameButtonsToGameFinished();
+    if (scrollerValues[0] === scrollerValues[1] && scrollerValues[1] === scrollerValues[2]) {
+        console.log("You win!");
+    } else {
+        console.log("You lose");
+    }
 }
 
 document.getElementById("new_game").onclick = function() {
     toggleGamesButtonToNewGame();
 }
 
-function roll(sprite, scroller, id, interval) {
+function roll(sprite, scrollerNumber, node, interval) {
     let subposition = 175;
     const subinterval = interval / 5;
     const diff = 175 / 5;
 
-
     sprite = setInterval(() => {
-        document.getElementById(id).style.backgroundPosition = `-8px +${subposition}px`;
+        node.style.backgroundPosition = `-8px +${subposition}px`;
 
         if (subposition == 175 * 1) {
-            scroller = browsers.FIREFOX;
             if (stopScrolling) {
                 clearInterval(sprite);
             }
         } else if (subposition == 175 * 2) {
-            scroller = browsers.SAFARI;
+           node
             if (stopScrolling) {
                 clearInterval(sprite);
             }
         } else if (subposition == 175 * 3) {
-            scroller = browsers.SEAMONKEY;
             if (stopScrolling) {
                 clearInterval(sprite);
             }
         } else if (subposition == 175 * 4) {
-            scroller = browsers.EXPLORER;
             if (stopScrolling) {
                 clearInterval(sprite);
             }
@@ -84,7 +83,25 @@ function roll(sprite, scroller, id, interval) {
         } else {
             subposition = 175;
         }
+        
+        if (subposition > 175 * 4) {
+            scrollerValues[scrollerNumber - 1] = browsers.FIREFOX;
+        } 
+        else if (subposition > 175 * 3) {
+            scrollerValues[scrollerNumber - 1] = browsers.EXPLORER;
+        }
+        else if (subposition > 175 * 2) {
+            scrollerValues[scrollerNumber - 1] = browsers.SEAMONKEY;
+        }
+        else if (subposition > 175) {
+            scrollerValues[scrollerNumber - 1] = browsers.SAFARI;
+        } else {
+            scrollerValues[scrollerNumber - 1] = browsers.FIREFOX;
+        }
+
     }, subinterval);
+
+    
 
 
 }
@@ -103,4 +120,9 @@ function toggleGamesButtonToNewGame() {
     document.getElementById("play_game").classList.remove("hidden");
     document.getElementById("new_game").classList.add("hidden");
     stopScrolling = false;
+
+    scroller1Node.style.backgroundPosition = 'bottom';
+    scroller2Node.style.backgroundPosition = 'bottom';
+    scroller3Node.style.backgroundPosition = 'bottom';
 }
+
