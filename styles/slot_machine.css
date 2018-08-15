@@ -1,0 +1,11 @@
+.scroller {
+    display: inline-block;
+    height: 175px;
+    width: 175px;
+
+    background: bottom url(../images/sprite/color_sprite.jpg) 
+}
+
+.hidden {
+    display: none;
+}
